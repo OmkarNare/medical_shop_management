@@ -132,15 +132,7 @@ public class CreateOrder extends JFrame implements ActionListener, ItemListener 
         medicineSearchField = new JTextField(20);
 
         JPanel a = new JPanel(new BorderLayout());
-       // DefaultListModel DList = new DefaultListModel();
 
-        //DList.addElement("                   ");
-
-        //list = new JList(DList);
-       // list.setFont(new Font("arial",0,12));
-
-        //list.addListSelectionListener(this);
-        //list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         Dcb = new DefaultComboBoxModel();
 
@@ -174,8 +166,7 @@ public class CreateOrder extends JFrame implements ActionListener, ItemListener 
         addButton.setForeground(Color.WHITE);
         removeButton.setBackground(Color.BLUE);
         removeButton.setForeground(Color.WHITE);
-//        addButton.setFont(button);
-//        removeButton.setFont(button);
+
         medicineAddPanel.add(addButton);
         medicineAddPanel.add(removeButton);
         JPanel totalPanel = new JPanel();

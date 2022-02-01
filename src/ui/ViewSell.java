@@ -120,7 +120,7 @@ public class ViewSell extends JFrame implements ActionListener
             ResultSet rs = null;
             try
             {
-                String qry = "SELECT `DATE`, `BILL_NO`, `CUSTOMER_NAME`, `TOTAL` FROM `sell_log` WHERE `DATE` = '"+date+"'";
+                String qry = "SELECT `DATE`, `BILL_NO`, `CUSTOMER_NAME`, `TOTAL` FROM `sell_log` WHERE `DATE` LIKE '"+date+"'";
 
                 smt = con.createStatement();
 
@@ -142,10 +142,10 @@ public class ViewSell extends JFrame implements ActionListener
                 smt.close();
                 con.close();
 
-                if(total == 00.00)
-                {
-                    JOptionPane.showMessageDialog(null,"No Record Found Of Given Data","Error",JOptionPane.INFORMATION_MESSAGE,Logins);
-                }
+//                if(total == 00.00)
+//                {
+//                    JOptionPane.showMessageDialog(null,"No Record Found Of Given Data","Error",JOptionPane.INFORMATION_MESSAGE,Logins);
+//                }
 
             }
 
