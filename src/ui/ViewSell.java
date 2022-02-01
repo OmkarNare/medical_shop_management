@@ -155,32 +155,6 @@ public class ViewSell extends JFrame implements ActionListener
             }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            modelview.addRow(
-                    new Object[]{
-                            ""+srNo++,
-
-
-
-
-                    }
-            );
         }
         if(s.equals(""))
         {
