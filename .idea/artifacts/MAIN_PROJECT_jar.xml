@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact name="MAIN PROJECT:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/MAIN_PROJECT_jar</output-path>
+    <root id="root">
+      <element id="archive" name="MAIN PROJECT.jar">
+        <element id="module-output" name="MAIN PROJECT" />
+      </element>
+      <element id="file-copy" path="$PROJECT_DIR$/Database/mysql-connector-java-8.0.27.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/JSON/json-simple-1.1.1.jar" />
+    </root>
+  </artifact>
+</component>
