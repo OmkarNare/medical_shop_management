@@ -69,7 +69,7 @@ public class SecondScreen extends JFrame implements ActionListener
 //        logoPanel.add(logoLable);
 //        add(logoPanel,BorderLayout.NORTH);
 
-        addOrderButton = new JButton("  ADD ORDER ");
+        addOrderButton = new JButton("  Create Bill ");
 //        addOrderButton.setSize(250,200);
 //        addOrderButton.setLocation(500,200);
         addOrderButton.addActionListener(this);
@@ -83,7 +83,7 @@ public class SecondScreen extends JFrame implements ActionListener
         JLabel po = new JLabel();
         po.setLayout(new FlowLayout());
 
-        addProductButton = new JButton("  ADD PRODUCT  ");
+        addProductButton = new JButton("  ADD MEDICINE  ");
 //        addProductButton.setSize(250,200);
 //        addProductButton.setLocation(500,500);
         addProductButton.addActionListener(this);
