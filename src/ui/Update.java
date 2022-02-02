@@ -54,7 +54,7 @@ public class Update extends JFrame implements ActionListener {
 		JPanel ft = new JPanel(new FlowLayout());
 
 
-		Medicine = new JLabel("    Medicine Name :    ");
+		Medicine = new JLabel("Medicine Name :  ");
 		Medicine.setFont(text);
 		f.add(Medicine);
 
@@ -62,7 +62,7 @@ public class Update extends JFrame implements ActionListener {
 		Medicine_text.setFont(field);
 		f.add(Medicine_text);
 
-		Expiry = new JLabel(" Expiry Date :    ");
+		Expiry = new JLabel(" Expiry Date :         ");
 		Expiry.setFont(text);
 		s.add(Expiry);
 
@@ -78,24 +78,24 @@ public class Update extends JFrame implements ActionListener {
 		minimum_quantity_text.setFont(field);
 		t.add(minimum_quantity_text);
 
-		Agency = new JLabel("      Agency Name :  ");
+		Agency = new JLabel("   Agency Name :     ");
 		Agency.setFont(text);
-		t.add(Agency);
+		ft.add(Agency);
 
-		Agency_text = new JTextField(20);
+		Agency_text = new JTextField(15);
 		Agency_text.setFont(field);
-		t.add(Agency_text);
+		ft.add(Agency_text);
 
-		Quantity = new JLabel("       Quantity :                 ");
+		Quantity = new JLabel("      Quantity :       ");
 		Quantity.setFont(text);
 		f.add(Quantity);
 
-		Quantity_text = new JTextField(20);
+		Quantity_text = new JTextField(15);
 		Quantity_text.setFont(field);
 		f.add(Quantity_text);
 
 
-		MRP = new JLabel("                MRP:                 ");
+		MRP = new JLabel("       MRP:                 ");
 		MRP.setFont(text);
 		s.add(MRP);
 
@@ -103,15 +103,19 @@ public class Update extends JFrame implements ActionListener {
 		MRP_text.setFont(field);
 		s.add(MRP_text);
 
-		unit = new JLabel("            	   Unit :    ");
+		unit = new JLabel("       Unit :          	     ");
 		unit.setFont(text);
-		ft.add(unit);
+		t.add(unit);
 
 		unit_text = new JTextField(15);
 		unit_text.setFont(field);
-		ft.add(unit_text);
+		t.add(unit_text);
 
-		price = new JLabel("              Price :                 ");
+		JLabel pl = new JLabel("                   ");
+		ft.add(pl);
+
+
+		price = new JLabel("Price :             ");
 		price.setFont(text);
 		ft.add(price);
 
@@ -196,7 +200,7 @@ public class Update extends JFrame implements ActionListener {
 			public void keyTyped(KeyEvent ke) {
 				char ch = ke.getKeyChar();
 
-				if (Character.isLetter(ch)) {
+				if (Character.isLetter(ch) || ch == ' ') {
 					/*if(As.length() > 0)
 					{
 						As = As.substring(0,Qs.length()-1);
