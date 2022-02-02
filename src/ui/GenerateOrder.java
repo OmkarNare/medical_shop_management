@@ -26,7 +26,7 @@ public class GenerateOrder extends JFrame implements ActionListener {
     JTable table = new JTable(modelview);
     JPanel medicineDetailsPanel = new JPanel(new BorderLayout(5, 10));
 
-    GenerateOrder() {
+    private GenerateOrder() {
         setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
         Image img1 = img.getImage();
@@ -51,8 +51,18 @@ public class GenerateOrder extends JFrame implements ActionListener {
 
         JButton generateOrder = new JButton("Generate Order");
         generateOrder.addActionListener(this);
-        JButton home = new JButton("Home");
+        generateOrder.setBackground(Color.BLUE);
+        generateOrder.setForeground(Color.WHITE);
+
+        ImageIcon home1 = new ImageIcon("src/Images/home.png");
+        Image home2 = home1.getImage();
+        Image home3 = home2.getScaledInstance(40,40,Image.SCALE_SMOOTH);
+        ImageIcon Home = new ImageIcon(home3);
+
+        JButton home = new JButton("");
         home.addActionListener(this);
+        home.setIcon(Home);
+        home.setBackground(Color.WHITE);
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(home);
@@ -71,10 +81,18 @@ public class GenerateOrder extends JFrame implements ActionListener {
 
     }
 
-
-    public static void main(String args[]) {
-        new GenerateOrder();
+    public static GenerateOrder getGenerateOrder(){                     //Singletone Method
+        if (obj == null){
+            synchronized(GenerateOrder.class){
+                if (obj == null){
+                    obj = new GenerateOrder();//instance will be created at request time
+                }
+            }
+        }
+        return obj;
     }
+
+    private static GenerateOrder obj = new GenerateOrder();
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -113,11 +131,14 @@ public class GenerateOrder extends JFrame implements ActionListener {
        }
 
 
-       if(str.equals("Home"))
+       if(str.equals(""))
        {
            dispose();
+           obj = null;
        }
 
     }
+
+
 }
 

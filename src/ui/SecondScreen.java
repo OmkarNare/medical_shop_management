@@ -14,12 +14,12 @@ import static ui.com.fonts.Font.*;
 public class SecondScreen extends JFrame implements ActionListener
 {
 
-    JButton addOrderButton,searchButton,addProductButton,viewSellButton;
+    JButton addOrderButton,generateButton,addProductButton,viewSellButton;
 
 
 
     Icon orderIcon = new ImageIcon("src/Images/Order1.png");
-//    Icon searchIcon = new ImageIcon("out\\production\\MAIN PROJECT\\ui\\Search1.png");
+    Icon searchIcon = new ImageIcon("src/Images/Generate.png");
     Icon productIcon = new ImageIcon("src/Images/Product1.png");
     Icon sellIcon = new ImageIcon("src/Images/Sell.png");
 
@@ -80,20 +80,6 @@ public class SecondScreen extends JFrame implements ActionListener
         addOrderButton.setBorder(null);
         ao.add(addOrderButton);
 
-//        JLabel so = new JLabel();
-//        so.setLayout(new FlowLayout());
-//
-//        searchButton = new JButton("  SEARCH  ");
-////        searchButton.setSize(250,200);
-////        searchButton.setLocation(850,200);
-//        searchButton.setVerticalAlignment(SwingConstants.CENTER);
-//        searchButton.addActionListener(this);
-//        searchButton.setIcon(searchIcon);                                       //Image
-//        searchButton.setFont(text);
-//        searchButton.setBackground(Color.WHITE);
-//        searchButton.setBorder(null);
-//        so.add(searchButton);
-
         JLabel po = new JLabel();
         po.setLayout(new FlowLayout());
 
@@ -108,6 +94,21 @@ public class SecondScreen extends JFrame implements ActionListener
         addProductButton.setForeground(Color.RED);
         addProductButton.setBorder(null);
         po.add(addProductButton);
+
+        JLabel so = new JLabel();
+        so.setLayout(new FlowLayout());
+//
+        generateButton = new JButton("  Generate Order  ");
+//        searchButton.setSize(250,200);
+//        searchButton.setLocation(850,200);
+        generateButton.setVerticalAlignment(SwingConstants.CENTER);
+        generateButton.addActionListener(this);
+        generateButton.setIcon(searchIcon);                                       //Image
+        generateButton.setFont(text);
+        generateButton.setBackground(Color.ORANGE);
+        generateButton.setForeground(Color.RED);
+        generateButton.setBorder(null);
+        so.add(generateButton);
 
         JLabel vo = new JLabel();
         vo.setLayout(new FlowLayout());
@@ -127,14 +128,15 @@ public class SecondScreen extends JFrame implements ActionListener
         JLabel to = new JLabel();
         to.setLayout(new FlowLayout());
 
-        JLabel so = new JLabel();
+        JLabel eo = new JLabel();
         so.setLayout(new FlowLayout());
 
 
         mo.add(to);
-        mo.add(so);
+        mo.add(eo);
         mo.add(ao);
         mo.add(po);
+        mo.add(so);
         mo.add(vo);
 
 
@@ -182,6 +184,12 @@ public class SecondScreen extends JFrame implements ActionListener
 
             // dispose();
             Update.getUpdate();                 //Singletone Method
+        }
+        if(ae.getSource() == generateButton)
+        {
+
+            // dispose();
+            GenerateOrder.getGenerateOrder();                 //Singletone Method
         }
         if(ae.getSource() == viewSellButton)
         {
