@@ -1,13 +1,10 @@
 package ui;
 
-import com.mysql.cj.xdevapi.JsonParser;
 import model.UpdateStock;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import java.awt.*;
@@ -16,17 +13,15 @@ import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.sql.*;
-import java.text.MessageFormat;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
-import java.util.stream.StreamSupport;
 
 import static java.lang.String.format;
-import static ui.com.fonts.Font.button;
 
 public class CreateOrder extends JFrame implements ActionListener, ItemListener , Printable {
 
@@ -34,14 +29,14 @@ public class CreateOrder extends JFrame implements ActionListener, ItemListener 
     int quantity;
     String medicineName ;
     double p,totalAmount;
-    Dimension dim;
+
 
 
     UpdateStock[] ups =new UpdateStock[10];
 
-    JScrollPane sp;
-    DefaultListModel DList;
-    JList list;
+
+
+
     JComboBox cb;
     String customerName;
 
@@ -56,13 +51,13 @@ public class CreateOrder extends JFrame implements ActionListener, ItemListener 
     JPanel medicineDetailsPanel = new JPanel(new BorderLayout(5, 10));
     JPanel medicineAddPanel;
     JTextField medicineSearchField ,quantityField,totalPriceField,customerNameField;
-    // ImageIcon image = new ImageIcon("C:\\Users\\OMKAR\\Desktop\\F Y Project\\APP008\\src\\ImageLogo.jpeg");
+
     private CreateOrder() {
         setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
         JPanel labelPanel = new JPanel();
         JLabel mainLabel = new JLabel();
-//        ImageIcon img = new ImageIcon("F:\\MAIN PROJECT\\src\\Images\\Flogo.jpeg");
+
         ImageIcon img = new ImageIcon("src/Images/TitleLogo.png");
         Image img1 = img.getImage();
         Image img2 = img1.getScaledInstance(900,200,Image.SCALE_SMOOTH);
@@ -389,36 +384,49 @@ public class CreateOrder extends JFrame implements ActionListener, ItemListener 
                 {
                     String str = rs.getString(1);
                     int availableQuantity = rs.getInt(5);
-                    if(medicineName.equals(str) &&  availableQuantity >= quantity)
+                    if(medicineName.equals(str))
                     {
-                        float mrp = rs.getFloat(2);
-                        int unit = rs.getInt(3);
-                        p = ((mrp/unit)*quantity);
+                        if(availableQuantity >= quantity)
+                        {
+                            float mrp = rs.getFloat(2);
+                            int unit = rs.getInt(3);
+                            p = ((mrp/unit)*quantity);
 
 
-                        totalAmount = Double.parseDouble(totalPriceField.getText());
-                        totalAmount += p;
-                        totalPriceField.setText(format("%.2f",totalAmount));
+                            totalAmount = Double.parseDouble(totalPriceField.getText());
+                            totalAmount += p;
+                            totalPriceField.setText(format("%.2f",totalAmount));
 
-                        medicineSearchField.setText("");
-                        quantityField.setText("");
-
-
-                        ups[srNo-1] = new UpdateStock(medicineName,quantity,availableQuantity);
-                        model.addRow(
-                                new Object[]{
-                                        ""+srNo++,
-                                        medicineName,
-                                        rs.getDate(4),
-                                        quantity,
-                                        format("%05.2f",p)
+                            medicineSearchField.setText("");
+                            quantityField.setText("");
 
 
+                            ups[srNo-1] = new UpdateStock(medicineName,quantity,availableQuantity);
+                            model.addRow(
+                                    new Object[]{
+                                            ""+srNo++,
+                                            medicineName,
+                                            rs.getDate(4),
+                                            quantity,
+                                            format("%05.2f",p)
 
 
-                                }
-                        );
 
+
+                                    }
+                            );
+                        }
+                        else
+                        {
+                            JOptionPane.showMessageDialog(null,"Required Quantity of medicine is not available..");
+
+                        }
+
+
+                    }
+                    else
+                    {
+                        JOptionPane.showMessageDialog(null,"Medicine is not available in store");
 
                     }
 
@@ -427,8 +435,7 @@ public class CreateOrder extends JFrame implements ActionListener, ItemListener 
 
                 smt.close();
                 con.close();
-
-
+                return;
             }
             catch (Exception e)
             {
