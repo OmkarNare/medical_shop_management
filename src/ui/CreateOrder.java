@@ -179,7 +179,7 @@ public class CreateOrder extends JFrame implements ActionListener, ItemListener 
 
         addButton.addActionListener(this);
         addButton.setBackground(Color.BLUE);
-        addButton.setBorder(null);
+        addButton.setFocusable(false);
         addButton.setForeground(Color.WHITE);
         removeButton.setBackground(Color.BLUE);
         removeButton.setForeground(Color.WHITE);
