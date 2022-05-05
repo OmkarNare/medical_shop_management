@@ -178,17 +178,10 @@ public class Update extends JFrame implements ActionListener {
 			public void keyTyped(KeyEvent ke) {
 				char ch = ke.getKeyChar();
 
-				if (Character.isDigit(ch) || ch == '-' || ch == '/') {
-						/*if(Es.length() > 0)
-						{
-							Es = Es.substring(0,Es.length()-1);
-						}
+				if (Character.isDigit(ch) || ch == '-' || ch == '/')
+				{
 
-						Es = Es + ch;
-						System.out.print(Es);*/
 					return;
-
-
 				}
 
 				ke.setKeyChar('\b');
@@ -200,14 +193,9 @@ public class Update extends JFrame implements ActionListener {
 			public void keyTyped(KeyEvent ke) {
 				char ch = ke.getKeyChar();
 
-				if (Character.isLetter(ch) || ch == ' ') {
-					/*if(As.length() > 0)
-					{
-						As = As.substring(0,Qs.length()-1);
-					}
+				if (Character.isLetter(ch) || ch == ' ')
+				{
 
-					As = As + ch;
-					System.out.print(As);*/
 					return;
 				}
 				ke.setKeyChar('\b');
@@ -218,14 +206,9 @@ public class Update extends JFrame implements ActionListener {
 			public void keyTyped(KeyEvent ke) {
 				char ch = ke.getKeyChar();
 
-				if (Character.isDigit(ch)) {
-					/*if(Qs.length() > 0)
-					{
-						Qs = Qs.substring(0,Qs.length()-1);
-					}
+				if (Character.isDigit(ch))
+				{
 
-					Qs = Qs + ch;
-					System.out.print(Qs);*/
 					return;
 				}
 				ke.setKeyChar('\b');
@@ -239,17 +222,10 @@ public class Update extends JFrame implements ActionListener {
 				if (Character.isDigit(ch) || ch == '.') {
 					String str = MRP_text.getText();
 
-					if (str.contains(".") && ch == '.') {
+					if (str.contains(".") && ch == '.')
+					{
 						ke.setKeyChar('\b');
 					}
-
-					/*if(Ps.length() > 0)
-					{
-						Ps = Ps.substring(0,Ps.length()-1);
-					}
-
-					Ps = Ps + ch;
-					System.out.print(Ps);*/
 					return;
 				}
 				ke.setKeyChar('\b');
