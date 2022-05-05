@@ -37,6 +37,7 @@ public class CreateOrder extends JFrame implements ActionListener, ItemListener 
     Dimension dim;
 
 
+
     UpdateStock[] ups =new UpdateStock[10];
 
     JScrollPane sp;
@@ -53,9 +54,9 @@ public class CreateOrder extends JFrame implements ActionListener, ItemListener 
 
     DefaultTableModel model = new DefaultTableModel(columns, 0);
     JTable table = new JTable(model);
-    JPanel medicineDetailsPanel = new JPanel(new BorderLayout(5, 10));
+    JPanel medicineDetailsPanel = new JPanel(new BorderLayout(0, 10));
     JPanel medicineAddPanel;
-    JTextField medicineSearchField ,quantityField,totalPriceField,customerNameField;
+    JTextField medicineSearchField ,quantityField,totalPriceField,customerNameField,customerPhoneField,customerAddressField,customerAgeField,pricribedByField;
     // ImageIcon image = new ImageIcon("C:\\Users\\OMKAR\\Desktop\\F Y Project\\APP008\\src\\ImageLogo.jpeg");
     private CreateOrder() {
         setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
@@ -88,22 +89,38 @@ public class CreateOrder extends JFrame implements ActionListener, ItemListener 
         leftPanel.add(new JLabel("Customer Name : "));
         leftPanel.add(customerNameField);
 
-        JTextField customerPhoneField = new JTextField(20);
+         customerPhoneField = new JTextField(20);
         rightPanel.add(new JLabel("             Mobile Number : "));
         rightPanel.add(customerPhoneField);
 
-        JTextField customerAddressField = new JTextField(20);
+//        ImageIcon arrow = new ImageIcon("src/Images/Arrow2.png");
+//        Image arrow1 = arrow.getImage();
+//        Image arrow2 = arrow1.getScaledInstance(20,10,Image.SCALE_SMOOTH);
+//        ImageIcon hideicon = new ImageIcon(arrow2);
+
+        JButton iconButton = new JButton("OK");
+        iconButton.setBackground(new Color(255,255,255));
+        iconButton.setBorder(null);
+        iconButton.addActionListener(this);
+        iconButton.setFocusable(false);                                  //unable to focus when clicked
+        iconButton.setBackground(Color.white);                         //COLOR BUTTOn
+        rightPanel.add(iconButton);
+
+         customerAddressField = new JTextField(20);
         leftPanel.add(new JLabel("Address : "));
         leftPanel.add(customerAddressField);
 
-        JTextField customerAgeField = new JTextField(1);
+        customerAgeField = new JTextField(1);
         rightPanel.add(new JLabel("             Age : "));
         rightPanel.add(customerAgeField);
 
         JLabel pricribedBy = new JLabel("Doctor's Name :");
-        JTextField pricribedByField = new JTextField(15);
+        pricribedByField = new JTextField(15);
         leftPanel.add(pricribedBy);
         leftPanel.add(pricribedByField);
+
+        JLabel nulllable = new JLabel();
+        rightPanel.add(nulllable);
 
         JLabel datelable = new JLabel("            Date :");
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -163,24 +180,30 @@ public class CreateOrder extends JFrame implements ActionListener, ItemListener 
 
         addButton.addActionListener(this);
         addButton.setBackground(Color.BLUE);
+        addButton.setBorder(null);
         addButton.setForeground(Color.WHITE);
         removeButton.setBackground(Color.BLUE);
         removeButton.setForeground(Color.WHITE);
 
         medicineAddPanel.add(addButton);
         medicineAddPanel.add(removeButton);
+
         JPanel totalPanel = new JPanel();
-
-
-
-
         totalPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+
         JButton printButton = new JButton("  Print  ");
         printButton.addActionListener(this);
         printButton.setBackground(Color.BLUE);
         printButton.setForeground(Color.WHITE);
 //        printButton.setBorder(null);
         printButton.setFocusable(false);
+
+        JButton setButton = new JButton("  Save  ");
+        setButton.addActionListener(this);
+        setButton.setBackground(Color.BLUE);
+        setButton.setForeground(Color.WHITE);
+//        printButton.setBorder(null);
+        setButton.setFocusable(false);
 
         ImageIcon home = new ImageIcon("src/Images/home.png");
         Image home1 = home.getImage();
@@ -194,6 +217,7 @@ public class CreateOrder extends JFrame implements ActionListener, ItemListener 
         cancelButton.setIcon(Home);
         cancelButton.setBackground(Color.WHITE);
         totalPanel.add(printButton);
+        totalPanel.add(setButton);
         JLabel totalPrice = new JLabel("      Total Price : ");
         totalPanel.add(totalPrice);
 
@@ -337,9 +361,9 @@ public class CreateOrder extends JFrame implements ActionListener, ItemListener 
 
         String s = ae.getActionCommand();
 
-        if(s.equals("  + Add  ")){
+        if(s.equals("  + Add  ")) {
 
-            if(medicineSearchField.getText().isEmpty() || quantityField.getText().isEmpty())
+           if(medicineSearchField.getText().isEmpty() || quantityField.getText().isEmpty())
             {
                 JOptionPane.showMessageDialog(null,"! Please Enter Valid Medicine Name & quantity .","Valid Detalis",JOptionPane.INFORMATION_MESSAGE,Logins);
                 return;
@@ -437,8 +461,11 @@ public class CreateOrder extends JFrame implements ActionListener, ItemListener 
                 return ;
             }
 
+
+
+
         }
-        if(s.equals("Remove Selected Row"))
+            if(s.equals("Remove Selected Row"))
         {
             if(table.getSelectionModel().isSelectionEmpty() == true )
             {
@@ -474,10 +501,14 @@ public class CreateOrder extends JFrame implements ActionListener, ItemListener 
 
 
 
+
+
         }
 
         if(s.equals(""))
         {
+
+
             dispose();
             obj = null;
 
@@ -501,7 +532,7 @@ public class CreateOrder extends JFrame implements ActionListener, ItemListener 
 
             Connection  con = SecondScreen.getConnection();
 
-           PreparedStatement smt = null;
+            PreparedStatement smt = null;
 
 
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -565,6 +596,91 @@ public class CreateOrder extends JFrame implements ActionListener, ItemListener 
                 }
             }
         }
+
+        if(s.equals("OK"))
+        {
+            String Phno = customerPhoneField.getText();
+            Connection con = SecondScreen.getConnection();
+            PreparedStatement ps = null;
+            ResultSet rs = null;
+
+
+            try {
+                ps = con.prepareStatement("select * from customerdetail where MobileNumber = ?");
+                ps.setString(1, Phno);
+
+                rs = ps.executeQuery();
+
+                boolean flag = rs.next();
+
+                if (flag == true) {
+
+                    System.out.println("Record is Found!!!");
+                    customerNameField.setText(rs.getString(1));
+                    customerAddressField.setText(rs.getString(2));
+                    pricribedByField.setText(rs.getString(3));
+                    customerAgeField.setText(rs.getString(5));
+
+                } else {
+
+                    JOptionPane.showMessageDialog(null,"Customer Not Present For Given Mobile Number !!");
+
+                }
+                rs.close();
+                con.close();
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        if(s.equals("  Save  "))
+        {
+            Connection con = SecondScreen.getConnection();
+            PreparedStatement ps = null;
+
+            String CustomerName = customerNameField.getText();
+            String CustomerAddress = customerAddressField.getText();
+            String DrName = pricribedByField.getText();
+            String PhoneNumber = customerPhoneField.getText();
+            String CustomerAge = customerAgeField.getText();
+
+
+
+            try
+            {
+                ps = con.prepareStatement("insert into customerdetail values(?,?,?,?,?)");
+
+                ps.setString(1, CustomerName);
+                ps.setString(2, CustomerAddress);
+                ps.setString(3, DrName);
+                ps.setString(4, PhoneNumber);
+                ps.setString(5, CustomerAge);
+
+                int i = ps.executeUpdate();
+
+                if(i > 0)
+                {
+                    System.out.println("Done");
+                }
+                else
+                {
+                    System.out.println("Not Done");
+                }
+
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+
+            customerNameField.setText("");
+            customerAddressField.setText("");
+            pricribedByField.setText("");
+            customerPhoneField.setText("");
+            customerAgeField.setText("");
+        }
+
 
     }
 
