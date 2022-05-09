@@ -92,18 +92,7 @@ public class CreateOrder extends JFrame implements ActionListener, ItemListener 
         rightPanel.add(new JLabel("             Mobile Number : "));
         rightPanel.add(customerPhoneField);
 
-//        ImageIcon arrow = new ImageIcon("src/Images/Arrow2.png");
-//        Image arrow1 = arrow.getImage();
-//        Image arrow2 = arrow1.getScaledInstance(20,10,Image.SCALE_SMOOTH);
-//        ImageIcon hideicon = new ImageIcon(arrow2);
 
-        JButton iconButton = new JButton("OK");
-        iconButton.setBackground(new Color(255,255,255));
-        iconButton.setBorder(null);
-        iconButton.addActionListener(this);
-        iconButton.setFocusable(false);                                  //unable to focus when clicked
-        iconButton.setBackground(Color.white);                         //COLOR BUTTOn
-        rightPanel.add(iconButton);
 
          customerAddressField = new JTextField(20);
         leftPanel.add(new JLabel("Address : "));
@@ -118,8 +107,6 @@ public class CreateOrder extends JFrame implements ActionListener, ItemListener 
         leftPanel.add(pricribedBy);
         leftPanel.add(pricribedByField);
 
-        JLabel nulllable = new JLabel();
-        rightPanel.add(nulllable);
 
         JLabel datelable = new JLabel("            Date :");
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -347,6 +334,49 @@ public class CreateOrder extends JFrame implements ActionListener, ItemListener 
 
         ImageIcon titleicon = new ImageIcon("src/Images/MainLogo.png");
         setIconImage(titleicon.getImage());
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+               if(e.getButton() == 1)
+               {
+                   String Phno = customerPhoneField.getText();
+                   Connection con = SecondScreen.getConnection();
+                   PreparedStatement ps = null;
+                   ResultSet rs = null;
+
+
+                   try {
+                       ps = con.prepareStatement("select * from customerdetail where MobileNumber = ?");
+                       ps.setString(1, Phno);
+
+                       rs = ps.executeQuery();
+
+                       boolean flag = rs.next();
+
+                       if (flag == true) {
+
+
+                           customerNameField.setText(rs.getString(1));
+                           customerAddressField.setText(rs.getString(2));
+                           pricribedByField.setText(rs.getString(3));
+                           customerAgeField.setText(rs.getString(5));
+
+                       } else {
+
+                           JOptionPane.showMessageDialog(null,"Customer Not Present For Given Mobile Number !!");
+
+                       }
+                       rs.close();
+                       con.close();
+                   }
+                   catch (Exception ex) {
+                       ex.printStackTrace();
+                   }
+
+               }
+            }
+        });
 
 
     }
@@ -581,7 +611,7 @@ public class CreateOrder extends JFrame implements ActionListener, ItemListener 
             }catch (Exception e)
             {
                 JOptionPane.showMessageDialog(null,"! UNKNOWN PROBLEM : .." + e);
-               return ;
+                return ;
 //                e.printStackTrace();
             }
 
@@ -608,53 +638,46 @@ public class CreateOrder extends JFrame implements ActionListener, ItemListener 
             }
         }
 
-        if(s.equals("OK"))
-        {
-            String Phno = customerPhoneField.getText();
-            Connection con = SecondScreen.getConnection();
-            PreparedStatement ps = null;
-            ResultSet rs = null;
-
-
-            try {
-                ps = con.prepareStatement("select * from customerdetail where MobileNumber = ?");
-                ps.setString(1, Phno);
-
-                rs = ps.executeQuery();
-
-                boolean flag = rs.next();
-
-                if (flag == true) {
-
-                    System.out.println("Record is Found!!!");
-                    customerNameField.setText(rs.getString(1));
-                    customerAddressField.setText(rs.getString(2));
-                    pricribedByField.setText(rs.getString(3));
-                    customerAgeField.setText(rs.getString(5));
-
-                } else {
-
-                    JOptionPane.showMessageDialog(null,"Customer Not Present For Given Mobile Number !!");
-
-                }
-                rs.close();
-                con.close();
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
 
         if(s.equals("  Save  "))
         {
             Connection con = SecondScreen.getConnection();
             PreparedStatement ps = null;
+            Statement stmt = null;
+            ResultSet rs = null;
 
             String CustomerName = customerNameField.getText();
             String CustomerAddress = customerAddressField.getText();
             String DrName = pricribedByField.getText();
             String PhoneNumber = customerPhoneField.getText();
             String CustomerAge = customerAgeField.getText();
+
+            boolean status = false;
+
+
+                try
+                {
+                    ps = con.prepareStatement("select * from customerdetail where MobileNumber = ?");
+                    ps.setString(1,PhoneNumber);
+
+                    rs = ps.executeQuery();
+
+                   status = rs.next();
+
+                    if(status == true)
+                    {
+                        JOptionPane.showMessageDialog(null,"Information Saved Successfully...");
+                        return;
+                    }
+
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+
+
+
 
 
 
@@ -672,11 +695,11 @@ public class CreateOrder extends JFrame implements ActionListener, ItemListener 
 
                 if(i > 0)
                 {
-                    System.out.println("Done");
+                    JOptionPane.showMessageDialog(null,"Information Saved Successfully...");
                 }
                 else
                 {
-                    System.out.println("Not Done");
+                    JOptionPane.showMessageDialog(null,"Failed to Save..");
                 }
 
             }
@@ -685,11 +708,13 @@ public class CreateOrder extends JFrame implements ActionListener, ItemListener 
                 e.printStackTrace();
             }
 
-            customerNameField.setText("");
-            customerAddressField.setText("");
-            pricribedByField.setText("");
-            customerPhoneField.setText("");
-            customerAgeField.setText("");
+
+
+//            customerNameField.setText("");
+//            customerAddressField.setText("");
+//            pricribedByField.setText("");
+//            customerPhoneField.setText("");
+//            customerAgeField.setText("");
         }
 
 
