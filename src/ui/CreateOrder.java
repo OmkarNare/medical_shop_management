@@ -323,13 +323,14 @@ public class CreateOrder extends JFrame implements ActionListener, ItemListener 
             }
         });
 
-        setLocation(250,150);
-        setSize(1000,600);
+//        setLocation(250,150);
+//        setSize(1000,600);
 //        dim = Toolkit.getDefaultToolkit().getScreenSize();
 //        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
-        setVisible(true);
+
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setResizable(false);
+        setVisible(true);
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
         ImageIcon titleicon = new ImageIcon("src/Images/MainLogo.png");

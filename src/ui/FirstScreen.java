@@ -210,11 +210,12 @@ public class FirstScreen extends JFrame implements ActionListener
         add(leftPanel,BorderLayout.WEST);
         /* Main Frame */
         setTitle("Login Screen");
-        setSize(1650,1080);                    //screen size
-        setLocation(0,0);
-        setVisible(true);
+//        setSize(1650,1080);                    //screen size
+//        setLocation(0,0);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setResizable(false);
+        setVisible(true);
+
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         ImageIcon titleicon = new ImageIcon("src/Images/MainLogo.png");

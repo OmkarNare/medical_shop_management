@@ -91,7 +91,7 @@ class RegistrationForm extends JFrame implements ActionListener
         ll.add(toplabel);
 
         /*Label customername*/
-        customername = new JLabel(" Customer Name :     ");
+        customername = new JLabel("Customer Name :       ");
         customername.setFont(text);
         fl.add(customername);
 
@@ -99,7 +99,7 @@ class RegistrationForm extends JFrame implements ActionListener
         customernamefield.setFont(field);
         fl.add(customernamefield);
 
-        username = new JLabel(" Username :                 ");
+        username = new JLabel(" Username :                ");
         username.setFont(text);
         sl.add(username);
 
@@ -126,7 +126,7 @@ class RegistrationForm extends JFrame implements ActionListener
 
         });
 
-        password = new JLabel("    Password :                  ");
+        password = new JLabel("    Password :                ");
         password.setFont(text);
         tl.add(password);
 
@@ -185,7 +185,7 @@ class RegistrationForm extends JFrame implements ActionListener
         iconButton.setBackground(Color.ORANGE);                         //COLOR BUTTOn
         tl.add(iconButton);
 
-        confirmpassword = new JLabel("    Confirm Password : ");
+        confirmpassword = new JLabel("  Confirm Password :    ");
         confirmpassword.setFont(text);
         al.add(confirmpassword);
 
@@ -242,7 +242,7 @@ class RegistrationForm extends JFrame implements ActionListener
         iconButton1.setBackground(Color.YELLOW);                         //COLOR BUTTOn
         al.add(iconButton1);
 
-        mobileno = new JLabel(" Mobile No :                 ");
+        mobileno = new JLabel(" Mobile No :               ");
         mobileno.setFont(text);
         bl.add(mobileno);
 
