@@ -666,7 +666,7 @@ public class CreateOrder extends JFrame implements ActionListener, ItemListener 
 
                     if(status == true)
                     {
-                        JOptionPane.showMessageDialog(null,"Information Saved Successfully...");
+                        JOptionPane.showMessageDialog(null,"Information Saved Successfully...","save",JOptionPane.INFORMATION_MESSAGE,Logins);
                         return;
                     }
 
@@ -695,11 +695,11 @@ public class CreateOrder extends JFrame implements ActionListener, ItemListener 
 
                 if(i > 0)
                 {
-                    JOptionPane.showMessageDialog(null,"Information Saved Successfully...");
+                    JOptionPane.showMessageDialog(null,"Information Saved Successfully...","Save",JOptionPane.INFORMATION_MESSAGE,Logins);
                 }
                 else
                 {
-                    JOptionPane.showMessageDialog(null,"Failed to Save..");
+                    JOptionPane.showMessageDialog(null,"Failed to Save..","Fail to Save",JOptionPane.INFORMATION_MESSAGE,Logins);
                 }
 
             }
