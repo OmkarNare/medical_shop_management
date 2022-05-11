@@ -39,7 +39,7 @@ public class FirstScreen extends JFrame implements ActionListener
 
         ImageIcon med = new ImageIcon("src/Images/background.png");
         Image med1 = med.getImage();
-        Image med2 = med1.getScaledInstance(1650,740,Image.SCALE_SMOOTH);
+        Image med2 = med1.getScaledInstance(1820,740,Image.SCALE_SMOOTH);
         ImageIcon meds = new ImageIcon(med2);
 //        JLabel main = new JLabel(med);
 //        main.add(gf);
