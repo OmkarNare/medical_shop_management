@@ -323,13 +323,14 @@ public class CreateOrder extends JFrame implements ActionListener, ItemListener 
             }
         });
 
-        setLocation(250,150);
-        setSize(1000,600);
+//        setLocation(250,150);
+//        setSize(1000,600);
 //        dim = Toolkit.getDefaultToolkit().getScreenSize();
 //        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
-        setVisible(true);
+
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setResizable(false);
+        setVisible(true);
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
         ImageIcon titleicon = new ImageIcon("src/Images/MainLogo.png");
@@ -666,7 +667,7 @@ public class CreateOrder extends JFrame implements ActionListener, ItemListener 
 
                     if(status == true)
                     {
-                        JOptionPane.showMessageDialog(null,"Information Saved Successfully...");
+                        JOptionPane.showMessageDialog(null,"Information Saved Successfully...","save",JOptionPane.INFORMATION_MESSAGE,Logins);
                         return;
                     }
 
@@ -695,11 +696,11 @@ public class CreateOrder extends JFrame implements ActionListener, ItemListener 
 
                 if(i > 0)
                 {
-                    JOptionPane.showMessageDialog(null,"Information Saved Successfully...");
+                    JOptionPane.showMessageDialog(null,"Information Saved Successfully...","Save",JOptionPane.INFORMATION_MESSAGE,Logins);
                 }
                 else
                 {
-                    JOptionPane.showMessageDialog(null,"Failed to Save..");
+                    JOptionPane.showMessageDialog(null,"Failed to Save..","Fail to Save",JOptionPane.INFORMATION_MESSAGE,Logins);
                 }
 
             }
