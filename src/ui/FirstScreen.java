@@ -39,7 +39,7 @@ public class FirstScreen extends JFrame implements ActionListener
 
         ImageIcon med = new ImageIcon("src/Images/background.png");
         Image med1 = med.getImage();
-        Image med2 = med1.getScaledInstance(1650,740,Image.SCALE_SMOOTH);
+        Image med2 = med1.getScaledInstance(1820,740,Image.SCALE_SMOOTH);
         ImageIcon meds = new ImageIcon(med2);
 //        JLabel main = new JLabel(med);
 //        main.add(gf);
@@ -210,11 +210,12 @@ public class FirstScreen extends JFrame implements ActionListener
         add(leftPanel,BorderLayout.WEST);
         /* Main Frame */
         setTitle("Login Screen");
-        setSize(1650,1080);                    //screen size
-        setLocation(0,0);
-        setVisible(true);
+//        setSize(1650,1080);                    //screen size
+//        setLocation(0,0);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setResizable(false);
+        setVisible(true);
+
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         ImageIcon titleicon = new ImageIcon("src/Images/MainLogo.png");
