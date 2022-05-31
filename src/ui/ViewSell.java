@@ -20,7 +20,7 @@ public class ViewSell extends JFrame implements ActionListener
     Dimension dim;
     double total = 0.0;
     String[] columns = {
-            "Sr. No","Date","Customer Name","Bill No","Total Amount"
+            "Sr. No","Date","Bill No","Customer ID","Total Amount"
     };
 
      DefaultTableModel modelview = new DefaultTableModel(columns, 0);
@@ -87,8 +87,8 @@ public class ViewSell extends JFrame implements ActionListener
         homePanel.add(homeButton);
         add(homePanel,BorderLayout.SOUTH);
 
-//        setSize(1000,600);
-//        dim = Toolkit.getDefaultToolkit().getScreenSize();
+        setSize(1300,1000);
+  //     dim = Toolkit.getDefaultToolkit().getScreenSize();
 //        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
         setVisible(true);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -120,7 +120,7 @@ public class ViewSell extends JFrame implements ActionListener
             ResultSet rs = null;
             try
             {
-                String qry = "SELECT `DATE`, `BILL_NO`, `CUSTOMER_NAME`, `TOTAL` FROM `sell_log` WHERE `DATE` LIKE '"+date+"'";
+                String qry = "SELECT `DATE`, `BILL_NO`, `CUSTOMER_ID`, `TOTAL` FROM `sell_log` WHERE `DATE` LIKE '"+date+"'";
 
                 smt = con.createStatement();
 
@@ -131,8 +131,8 @@ public class ViewSell extends JFrame implements ActionListener
                     modelview.addRow(new Object[]{
                             srNo,
                             rs.getDate(1),
-                            rs.getString(3),
-                             rs.getInt(2),
+                            rs.getString(2),
+                             rs.getInt(3),
                             rs.getFloat(4)
                     });
                     total = total + rs.getFloat(4);

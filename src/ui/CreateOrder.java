@@ -13,10 +13,7 @@ import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
@@ -29,9 +26,11 @@ public class CreateOrder extends JFrame implements ActionListener, ItemListener 
     int quantity;
     String medicineName ;
     double p,totalAmount;
+    static int cnt =0;
 
 
 
+//SELECT CUSTOMER_ID from sell_log ORDER by  CUSTOMER_ID DESC LIMIT 1;
 
     UpdateStock[] ups =new UpdateStock[10];
 
@@ -75,7 +74,7 @@ public class CreateOrder extends JFrame implements ActionListener, ItemListener 
         add(labelPanel);
 
         JPanel customerDetailsPanel = new JPanel();
-        customerDetailsPanel.setBorder(BorderFactory.createTitledBorder("Customer Details"));
+        customerDetailsPanel.setBorder(BorderFactory.createTitledBorder("Customer Details   "));
         customerDetailsPanel.setLayout(new FlowLayout());
 
         JPanel leftPanel = new JPanel();
@@ -125,7 +124,7 @@ public class CreateOrder extends JFrame implements ActionListener, ItemListener 
 
 
 
-        medicineDetailsPanel.setBorder(BorderFactory.createTitledBorder("Medicine Details"));
+        medicineDetailsPanel.setBorder(BorderFactory.createTitledBorder("Bill No: " + cnt));
 
         medicineAddPanel = new JPanel();
         //medicineAddPanel.setLayout(new GridLayout(1,7));
@@ -222,12 +221,15 @@ public class CreateOrder extends JFrame implements ActionListener, ItemListener 
         medicineDetailsPanel.add(medicineAddPanel, BorderLayout.NORTH);
         medicineDetailsPanel.add(new JScrollPane(table), BorderLayout.CENTER);
         medicineDetailsPanel.add(totalPanel, BorderLayout.SOUTH);
+        medicineDetailsPanel.setBorder(BorderFactory.createTitledBorder("Bill No: " + getBillNo() + "   "));
+
         add(medicineDetailsPanel);
 
 
         customerNameField.addKeyListener(new KeyAdapter() {
             public void keyTyped(KeyEvent ke) {
                 char ch = ke.getKeyChar();
+
 
                 if (Character.isLetter(ch) || ch == ' ')
                 {
@@ -237,15 +239,24 @@ public class CreateOrder extends JFrame implements ActionListener, ItemListener 
             }
         });
 
+
+
+
+
+
         customerPhoneField.addKeyListener(new KeyAdapter() {
             public void keyTyped(KeyEvent ke) {
                 char ch = ke.getKeyChar();
+                String ph = customerPhoneField.getText();
 
                 if (Character.isDigit(ch))
                 {
+                    if(ph.length()>=10) {
+                        ke.setKeyChar('\b');
+                    }
                     return;
                 }
-                ke.setKeyChar('\b');
+
             }
         });
 
@@ -324,9 +335,9 @@ public class CreateOrder extends JFrame implements ActionListener, ItemListener 
         });
 
         setLocation(250,150);
-        setSize(1000,600);
-//        dim = Toolkit.getDefaultToolkit().getScreenSize();
-//        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+        setSize(1300,1000);
+     //Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+       // this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
         setVisible(true);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setResizable(false);
@@ -357,14 +368,19 @@ public class CreateOrder extends JFrame implements ActionListener, ItemListener 
                        if (flag == true) {
 
 
-                           customerNameField.setText(rs.getString(1));
-                           customerAddressField.setText(rs.getString(2));
-                           pricribedByField.setText(rs.getString(3));
-                           customerAgeField.setText(rs.getString(5));
+                           customerNameField.setText(rs.getString(2));
+                           customerAddressField.setText(rs.getString(3));
+                           pricribedByField.setText(rs.getString(4));
+                           customerAgeField.setText(rs.getString(6));
 
-                       } else {
-
-                           JOptionPane.showMessageDialog(null,"Customer Not Present For Given Mobile Number !!");
+                       } else
+                       {
+                           JOptionPane.showMessageDialog(null,"Customer Not Present For Given Mobile Number Enter All Details!!");
+//                           customerNameField.setText("");
+//                           customerAddressField.setText("");
+//                           pricribedByField.setText("");
+//                           customerAgeField.setText("");
+//                           customerPhoneField.setText("");
 
                        }
                        rs.close();
@@ -467,28 +483,18 @@ public class CreateOrder extends JFrame implements ActionListener, ItemListener 
                                             rs.getDate(4),
                                             quantity,
                                             format("%05.2f",p)
-
-
-
-
                                     }
                             );
                         }
                         else
                         {
                             JOptionPane.showMessageDialog(null,"Required Quantity of medicine is not available..");
-
                         }
-
-
                     }
                     else
                     {
                         JOptionPane.showMessageDialog(null,"Medicine is not available in store");
-
                     }
-
-
                 }
 
                 smt.close();
@@ -501,10 +507,6 @@ public class CreateOrder extends JFrame implements ActionListener, ItemListener 
                 JOptionPane.showMessageDialog(null,"! UNKNOWN PROBLEM : .." + e);
                 return ;
             }
-
-
-
-
         }
             if(s.equals("Remove Selected Row"))
         {
@@ -524,8 +526,6 @@ public class CreateOrder extends JFrame implements ActionListener, ItemListener 
                 n++;
             }
 
-
-
             double rprice = Double.parseDouble(model.getValueAt(table.getSelectedRow(),4).toString()) ;
             model.removeRow(table.getSelectedRow());
             srNo--;
@@ -538,18 +538,10 @@ public class CreateOrder extends JFrame implements ActionListener, ItemListener 
             Double d = Double.parseDouble(totalPriceField.getText());
             d = d - rprice;
             totalPriceField.setText(format(d.toString().format("%.2f",d)));
-
-
-
-
-
-
         }
 
         if(s.equals(""))
         {
-
-
             dispose();
             obj = null;
 
@@ -560,20 +552,22 @@ public class CreateOrder extends JFrame implements ActionListener, ItemListener 
         if(s.equals("  Print  "))
         {
             System.out.println("print Button clicked");
-
-            UpdateStock.updateQuantity(ups);
+/*
+//            UpdateStock.updateQuantity(ups);
 
             JSONObject jsonObject = new JSONObject();
             JSONArray jsonArray = new JSONArray();
 
             //JsonParser jsonParser = new JsonParser();
            // jsonArray.();
-            jsonObject.put("total amount",totalPriceField.getText());
-            jsonObject.put("MEDICINES",model.getDataVector());
+           // jsonObject.put("total amount",totalPriceField.getText());
+           // jsonObject.put("MEDICINES",model.getDataVector());
 
             Connection  con = SecondScreen.getConnection();
 
             PreparedStatement smt = null;
+            Statement stmt = null;
+            ResultSet rs = null;
 
 
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -583,23 +577,38 @@ public class CreateOrder extends JFrame implements ActionListener, ItemListener 
             String vDateYMD = formatter.format(now);
 
             customerName = customerNameField.getText();
+
+
+
             try
             {
+//                stmt = con.createStatement();
+//                rs = stmt.executeQuery("SELECT BILL_NO from sell_log ORDER by BILL_NO DESC LIMIT 1");
+//
+//               while(rs.next())
+//               {
+//                   cnt = rs.getInt(1);
+//                   cnt++;
+//               }
 
-                String qry = "INSERT INTO `sell_log`(`DATE`,`BILL_NO`, `CUSTOMER_NAME`,`TOTAL`, `LOG`) VALUES (?,?,?,?,?)";
-               smt = con.prepareStatement(qry);
+
+
+
+                String qry1 = "INSERT INTO `sell_log`(`DATE`, `BILL_NO`,`CUSTOMER_ID`, `LOG`) VALUES (?,?,?,?)";
+               smt = con.prepareStatement(qry1);
 //
 
 
                 smt.setDate(1, java.sql.Date.valueOf(vDateYMD.toString()));
-                smt.setInt(2,rand.nextInt());
-                smt.setString(3,customerName);
-                smt.setFloat(4, (float) totalAmount);
+                smt.setInt(2,cnt);
+                smt.setInt(3,1);
+                //smt.setString(2,customerName);
+                //smt.setFloat(4, (float) totalAmount);
 
 
 
                // JsonParser parser = new JsonParser(jsonObject);
-                smt.setObject(5,jsonObject.toJSONString());
+                smt.setObject(4,jsonObject.toJSONString());
 
                // smt.executeUpdate();
               int i= smt.executeUpdate();
@@ -615,7 +624,7 @@ public class CreateOrder extends JFrame implements ActionListener, ItemListener 
 //                e.printStackTrace();
             }
 
-
+*/
 
 //            System.out.println(jsonObject.toJSONString());
 //            System.out.println(jsonObject);
@@ -645,14 +654,104 @@ public class CreateOrder extends JFrame implements ActionListener, ItemListener 
             PreparedStatement ps = null;
             Statement stmt = null;
             ResultSet rs = null;
+            JSONObject jsonObject = new JSONObject();
+            JSONArray jsonArray = new JSONArray();
+
+
+            UpdateStock.updateQuantity(ups);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            jsonObject.put("total amount",totalPriceField.getText());
+            jsonObject.put("MEDICINES",model.getDataVector());
+
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+
+            java.sql.Date date = new java.sql.Date(0000-00-00);
+            Date now = new Date();
+            String vDateYMD = formatter.format(now);
 
             String CustomerName = customerNameField.getText();
             String CustomerAddress = customerAddressField.getText();
             String DrName = pricribedByField.getText();
             String PhoneNumber = customerPhoneField.getText();
             String CustomerAge = customerAgeField.getText();
+            float totalprice = Float.parseFloat(totalPriceField.getText());
+
+            System.out.println(totalprice);
+
 
             boolean status = false;
+
+
+            try
+            {
+                String qry1 = "INSERT INTO `sell_log`(`DATE`, `BILL_NO`,`CUSTOMER_ID`,`TOTAL` ,`LOG`) VALUES (?,?,?,?,?)";
+                ps = con.prepareStatement(qry1);
+
+                ps.setDate(1, java.sql.Date.valueOf(vDateYMD.toString()));
+                ps.setInt(2,cnt);
+                ps.setInt(3,1);
+                ps.setFloat(4, totalprice);
+
+                // JsonParser parser = new JsonParser(jsonObject);
+                ps.setObject(5,jsonObject.toJSONString());
+
+                // smt.executeUpdate();
+                int i= ps.executeUpdate();
+
+                System.out.println(i);
+
+               // ps.close();
+                //con.close();
+            }
+            catch (Exception e)
+            {
+                JOptionPane.showMessageDialog(null,"! UNKNOWN PROBLEM : .." + e);
+                //return ;
+
+            }
 
 
                 try
@@ -683,7 +782,7 @@ public class CreateOrder extends JFrame implements ActionListener, ItemListener 
 
             try
             {
-                ps = con.prepareStatement("insert into customerdetail values(?,?,?,?,?)");
+                ps = con.prepareStatement("insert into customerdetail(CustomerName,Address,DoctorName,MobileNumber,Age) values(?,?,?,?,?)");
 
                 ps.setString(1, CustomerName);
                 ps.setString(2, CustomerAddress);
@@ -708,13 +807,6 @@ public class CreateOrder extends JFrame implements ActionListener, ItemListener 
                 e.printStackTrace();
             }
 
-
-
-//            customerNameField.setText("");
-//            customerAddressField.setText("");
-//            pricribedByField.setText("");
-//            customerPhoneField.setText("");
-//            customerAgeField.setText("");
         }
 
 
@@ -781,5 +873,39 @@ public class CreateOrder extends JFrame implements ActionListener, ItemListener 
 
         return Printable.PAGE_EXISTS;
     }
+
+    static int getBillNo()
+    {
+        Connection con = SecondScreen.getConnection();
+        Statement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            stmt = con.createStatement();
+            rs = stmt.executeQuery("SELECT BILL_NO from sell_log ORDER by BILL_NO DESC LIMIT 1");
+
+            while (rs.next()) {
+                cnt = rs.getInt(1);
+                cnt++;
+                System.out.println(cnt);
+
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        catch(Exception e)
+            {
+                e.printStackTrace();
+            }
+
+        return cnt;
+
+
+
+
+
+    }
+
 
 }
